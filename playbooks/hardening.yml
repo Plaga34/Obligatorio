@@ -1,0 +1,72 @@
+---
+- hosts: ubuntu
+  become: yes
+
+  tasks:
+
+    - name: Actualizador de paquetes
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+        update_cache: true
+      notify: Reiniciar Sistema
+
+    - name: Habilitar ufw
+      community.general.ufw:
+        state: enabled
+
+    - name: Permite ssh
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: No permitir entrada
+      community.general.ufw:
+        rule: deny
+        direction: in  
+
+    - name: Deshabilitar root login
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/ssh_config
+        insertafter: '#PermitRootLogin'
+        line: PermitRootLogin no
+
+    - name: Eliminar archivo PasswordAuth
+      ansible.builtin.file: 
+        path: /etc/ssh/sshd_config.d/50-cloud-init.conf
+        state: absent
+
+
+    - name: Deshabilitar login por contraseña
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/ssh_config
+        insertafter: '#PasswordAuthentication'
+        line: PasswordAuthentication no
+        state: present
+      
+    - name: Habilitar ingreso por clave Publica
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/ssh_config
+        insertafter: '#PubkeyAuthentication'
+        line: PubkeyAuthentication yes
+        state: present
+
+    - name: Instalar fail2ban
+      ansible.builtin.apt:
+        name: fail2ban
+        state: present
+        update_cache: true
+      notify: Reiniciar daemon ssh
+
+
+
+  handlers:
+
+    - name: Reiniciar Sistema
+      ansible.builtin.reboot:
+
+    - name: Reiniciar daemon ssh
+      ansible.builtin.systemd_service:
+        name: ssh
+        state: restarted
+
