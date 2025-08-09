@@ -36,7 +36,6 @@
         path: /etc/ssh/sshd_config.d/50-cloud-init.conf
         state: absent
 
-
     - name: Deshabilitar login por contraseña
       ansible.builtin.lineinfile:
         path: /etc/ssh/ssh_config
@@ -58,8 +57,19 @@
         update_cache: true
       notify: Reiniciar daemon ssh
 
-    - 
-
+    - name: Configurar archivo de bloqueo ssh  
+      ansible.builtin.blockinfile:
+        path: /etc/fail2ban/jail.local
+        block: |
+          [sshd]
+          enabled = true
+          port = ssh
+          logpath = %(sshd_log)s
+          maxretry = 5
+          bantime = 1h
+        marker: "#MARCADOR ANSIBLE blocker - sshd JAIL"
+        create: true
+        mode: '0644'
 
   handlers:
 
