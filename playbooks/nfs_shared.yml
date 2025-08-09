@@ -1,0 +1,40 @@
+---
+- name: Intalacion y configuracion de NFS
+  hosts: centos
+  become: yes
+
+  tasks:
+
+   - name: Instalar paquetes NFS
+     ansible.builtin.dnf:
+        name: "{{ paquetesnfs }}"
+     
+   - name: Servicio NFS iniciado y enabled
+     ansible.builtin.systemd_service:
+        name: nfs-server
+        state: started
+        enabled: true
+
+   - name: Permitir conexiones al puerto 2049
+     ansible.posix.firewalld:
+       port: 2049/tcp
+       permanent: true
+       state: enabled
+       immediate: true 
+
+   - name: Exista el directorio en /var
+     ansible.builtin.file:
+       path: /var/nfs_shared
+       state: directory
+       owner: nobody
+       group: nobody
+       mode: '0777'
+
+   - name: Declarar carpeta compartida en export
+     ansible.builtin.blockinfile:
+       path: /etc/exports
+       block: "/var/nfs_shared *(rw,sync,no_root_squash,no_subtree_check)"
+       create: yes
+
+   - name: Recargar export "NFS"
+     ansible.builtin.command: exportfs -r
