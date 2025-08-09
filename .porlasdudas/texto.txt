@@ -1,0 +1,7 @@
+- name: Copiar jail.local
+  ansible.builtin.copy:
+    src: .porlasdudas/jail.local
+    dest: /etc/fail2ban/
+    owner: root
+    group: root
+    mode '0644'
