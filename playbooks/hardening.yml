@@ -70,6 +70,7 @@
         marker: "#MARCADOR ANSIBLE blocker - sshd JAIL"
         create: true
         mode: '0644'
+      notify: Reiniciar Fail2ban
 
   handlers:
 
@@ -81,3 +82,7 @@
         name: ssh
         state: restarted
 
+    - name: Reiniciar Fail2ban
+      ansible.builtin.systemd_service:
+        name: fail2ban
+        state: restarted      
