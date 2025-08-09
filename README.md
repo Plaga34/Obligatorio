@@ -11,18 +11,19 @@ Obligatorio Taller Linux 2025
 
   sudo dnf install ansible-core
 
-## 3- Instalamos ansible requirements:
+## 3- Clonar el GIT por HTTPS
 
-   ansible-galaxy install -r collections/requirements.yaml
+   git clone https://github.com/Plaga34/Obligatorio.git
+
 
 ## 4- Generar clave SSH:
 
    ssh-keygen
 
 
-## 5- Clonar el GIT por HTTPS
+## 5- Instalamos ansible requirements:
 
-   git clone https://github.com/Plaga34/Obligatorio.git
+   ansible-galaxy install -r collections/requirements.yaml
 
 
 ## 6- Instalamos y habilitamos SSH Ubuntu Server:
