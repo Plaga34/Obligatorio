@@ -28,8 +28,8 @@
     - name: Deshabilitar root login
       ansible.builtin.lineinfile:
         path: /etc/ssh/ssh_config
-        insertafter: '#PermitRootLogin'
-        line: PermitRootLogin no
+        insertafter: '^#?\s*PermitRootLogin'
+        line: 'PermitRootLogin no'
 
     - name: Eliminar archivo PasswordAuth
       ansible.builtin.file: 
@@ -39,15 +39,15 @@
     - name: Deshabilitar login por contraseña
       ansible.builtin.lineinfile:
         path: /etc/ssh/ssh_config
-        insertafter: '#PasswordAuthentication'
-        line: PasswordAuthentication no
+        insertafter: '^#?\s*PasswordAuthentication'
+        line: 'PasswordAuthentication no'
         state: present
       
     - name: Habilitar ingreso por clave Publica
       ansible.builtin.lineinfile:
         path: /etc/ssh/ssh_config
-        insertafter: '#PubkeyAuthentication'
-        line: PubkeyAuthentication yes
+        insertafter: '^#?\s*PubkeyAuthentication'
+        line: 'PubkeyAuthentication yes'
         state: present
 
     - name: Instalar fail2ban
