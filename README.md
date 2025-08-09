@@ -44,10 +44,10 @@ Obligatorio Taller Linux 2025
 
 ## 8- Ejecutamos el Playbook:
 
-  ansible-playbook playbook/nfs_shared.yml -K
+  ansible-playbook -i inventories/inventory.ini playbooks/nfs_shared.yml -K
 
 
 ## 9-  Ejecutamos el Playbook:
 
-  ansible-playbook playbook/hardening.yml -K
+  ansible-playbook -i inventories/inventory.ini  playbooks/hardening.yml -K
 
