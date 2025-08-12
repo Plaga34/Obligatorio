@@ -5,26 +5,23 @@ Obligatorio Taller Linux 2025
 
 ## 1- Instalar git con el comando:
 
-  sudo apt install git
+  sudo dnf install git
 
 ## 2- Instalar ansible:
 
-  sudo dnf install ansible-core
+  sudo dnf install -y ansible-core
 
 ## 3- Clonar el GIT por HTTPS
 
    git clone https://github.com/Plaga34/Obligatorio.git
 
-
 ## 4- Generar clave SSH:
 
    ssh-keygen
 
-
 ## 5- Instalamos ansible requirements:
 
    ansible-galaxy install -r collections/requirements.yaml
-
 
 ## 6- Instalamos y habilitamos SSH Ubuntu Server:
 
@@ -34,13 +31,11 @@ Obligatorio Taller Linux 2025
 
   sudo systemctl enable ssh
 
-
 ## 7- Copiar las Claves ssh
 
    ssh-copy-id 192.168.1.2
   
    ssh-copy-id 192.168.1.3
-
 
 ## 8- Ejecutamos el Playbook:
 
