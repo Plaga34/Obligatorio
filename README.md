@@ -21,6 +21,7 @@ Obligatorio Taller Linux 2025
 
 ## 5- Instalamos ansible requirements:
 
+   cd Obligatorio
    ansible-galaxy install -r collections/requirements.yaml
 
 ## 6- Instalamos y habilitamos SSH Ubuntu Server:
